@@ -155,6 +155,10 @@ export const StyledCard = styled.article`
       }
       background-color: rgba(var(--color-green-positive), .8);
       background: linear-gradient(90deg, rgba(60,187,180,0.8) 0%, rgba(60,187,180,0.8) ${props => props.positivePerc}%, rgba(249,173,29,0.8) ${props => props.positivePerc}%, rgba(249,173,29,0.8) 100%);
+
+      & > span:first-of-type > img{
+        margin-right: 10px;
+      }
     }
 
     &--up{
@@ -187,7 +191,7 @@ export const StyledCard = styled.article`
 
   @media all and (min-width: 1024px) {
     .card__percentage__container{
-      width: ${props => props.displayMode==='List' && '98.3%'};
+      width: ${props => props.displayMode==='List' && '98%'};
     }
   }
 

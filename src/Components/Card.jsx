@@ -14,7 +14,6 @@ function Card(props) {
 
 
   const name = celeb.name
-  console.log(celebsToStore)
 
   const {positive, negative} = celebsToStore[name]
   
@@ -121,6 +120,7 @@ function Card(props) {
        positivePerc={positivePerc}
        bg={celeb.picture}
       >
+        {/* CARD HEADER */}
         <span
          className='card__score-icon'
          aria-label={`thumbs ${positivePerc<negativePerc ? 'down' : 'up'}`}
@@ -130,6 +130,9 @@ function Card(props) {
             alt={`thumbs ${positivePerc<negativePerc ? 'down' : 'up'}`} 
           />
         </span>
+
+        {/* CARD BODY */}
+        
         <span
          className='card__info'
         >
@@ -143,6 +146,8 @@ function Card(props) {
             <h3>{celeb.name}</h3>
             <p>{celeb.description}</p>
           </div>
+
+          {/* BUTTON CONTAINER */}
 
           <div className='card__btn__container'>
             <button
@@ -171,6 +176,8 @@ function Card(props) {
             </button>
           </div>
         </section>
+
+        {/* PERCENTAGE CONTAINER */}
 
         <div className='card__percentage__container'>
            

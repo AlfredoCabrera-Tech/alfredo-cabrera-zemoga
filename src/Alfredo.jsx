@@ -1,16 +1,15 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, {useRef, useEffect} from 'react'
 import Card from './Components/Card'
 import Dropdown from './Components/Dropdown'
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Carousel } from 'react-responsive-carousel'
 import { useGlobalContext } from './Hooks/useGlobalContext'
+import useFetch from './Hooks/useFetch'
 
 //Styles
 import { ComponentTitle } from './Components/Styles/Title.styled'
 import { CardsContainer } from './Components/Styles/CardsContainer.styled'
 import { MobileCardsContainer } from './Components/Styles/MobileCardsContainer.styled'
-
-/* export const GlobalContext = React.createContext() */
 
 function Alfredo() {
 
@@ -21,6 +20,8 @@ function Alfredo() {
     setCelebsToStore,
     displayMode
   } = useGlobalContext()
+
+  const { data, loading, error } = useFetch('assets/data.json')
 
   useEffect(() => {
     (async () => {
@@ -75,16 +76,21 @@ function Alfredo() {
     }
   }, [celebsToStore])
 
+  if (loading) return <h1>LOADING...</h1>
+
+  if(error) console.log(error)
+
   return (
     
-      <>
+    <>
       {/* MODULE TITLE + DROPDOWN */}
         <ComponentTitle>
           <h2>Previous Rulings</h2>
           <Dropdown />
         </ComponentTitle>
-          
-      {/* CARDS CONTAINER */}
+      
+
+        {/* CARDS CONTAINER */}
         <CardsContainer displayMode={displayMode}>
             {current && current.map((celeb, index) => (
               <Card key={index} celeb={celeb}/>
@@ -98,8 +104,9 @@ function Alfredo() {
               <Card key={index} celeb={celeb}/>
             ))}
           </Carousel>
-        </MobileCardsContainer>
-      </>
+          </MobileCardsContainer> 
+          </>
+        
 
   )
 }
