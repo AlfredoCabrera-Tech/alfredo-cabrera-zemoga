@@ -4,7 +4,6 @@ import Dropdown from './Components/Dropdown'
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Carousel } from 'react-responsive-carousel'
 import { useGlobalContext } from './Hooks/useGlobalContext'
-import useFetch from './Hooks/useFetch'
 
 //Styles
 import { ComponentTitle } from './Components/Styles/Title.styled'
@@ -21,15 +20,15 @@ function Alfredo() {
     displayMode
   } = useGlobalContext()
 
-  const { data, loading, error } = useFetch('assets/data.json')
-
   useEffect(() => {
     (async () => {
       try{
+        /* FETCH DATA */
         const response = await fetch('assets/data.json')
         const json = await response.json()
+
+        /* CHECK IF THERE'S DATA IN LOCALSTORAGE */
         const localStorageKeys = Object.keys(localStorage)
-        console.log(localStorageKeys)
         const oldDataArr = []
         json.data.forEach(item => {
           if(localStorageKeys.includes(item.name)){
@@ -41,7 +40,14 @@ function Alfredo() {
 
         const oldDataProof = oldDataArr.reduce((ac,cu) => ac*cu)
 
+        /* SETTING FETCHED DATA TO A REF THAT WON'T RE-RENDER */
+
         celebs.current = json.data
+
+        /* 
+          IF THERE'S NO DATA IN LOCALSTORAGE, SET API DATA TO APP,
+          HOWEVER, IF THERE'S DATA ALREADY IN LOCALSTORAGE, WE'LL WORK WITH THAT
+        */
 
         if(oldDataProof === 0){ 
           localStorage.clear()
@@ -59,7 +65,6 @@ function Alfredo() {
             celebsCount[item] = JSON.parse(localStorage.getItem(item))
           }
           setCelebsToStore(celebsCount)
-          console.log(celebsToStore)
         }
 
       } catch(err){
@@ -70,15 +75,13 @@ function Alfredo() {
 
   let {current} = celebs
 
+  /* EVERY TIME A NEW VOTE IS CASTED, THE LOCALSTORAGE DATA GETS UPDATED HERE */
+
   useEffect(() => {
     for(let item in celebsToStore){
       localStorage.setItem(item,JSON.stringify(celebsToStore[item]))
     }
   }, [celebsToStore])
-
-  if (loading) return <h1>LOADING...</h1>
-
-  if(error) console.log(error)
 
   return (
     
