@@ -121,7 +121,7 @@ export const StyledCard = styled.article`
       text-align: center;
 
       &:disabled{
-        background: rgba(70, 70, 70, 1);
+        background: rgba(250, 250, 250, 0.8);
       }
     }
   }

@@ -12,13 +12,14 @@ function Card(props) {
     celeb
   } = props
 
-
+  /* DESTRUCTURING NAME, POSITIVE AND NEGATIVE TO USE THE VARIABLES INDIVIDUALLY */
   const name = celeb.name
-
   const {positive, negative} = celebsToStore[name]
   
+  /* SETTING TIMEREF TO PREVENT IT FROM RE-RENDERING */
   const timeRef = useRef()
-  
+
+  /* SETTING UP INITIAL STATE */
   const[celebState, setCelebState] = useState(celeb)
   const[positives, setPositives] = useState(positive)
   const[negatives, setNegatives] = useState(negative)
@@ -34,10 +35,12 @@ function Card(props) {
     negative: negatives
   }
 
+  /* WHENEVER THERE'S A NEW VOTE, LOCALSTORAGE UPDATES */
   useEffect(() => {
     localStorage.setItem(name,JSON.stringify(newVotes))
   }, [celebState, name])
 
+  /* EVENT HANDLERS FOR THE BUTTONS (VOTE LOGIC) */
   const handleClickUp = () => {
     if(!voted){
       setIsPositive(prev => !prev)
@@ -89,6 +92,8 @@ function Card(props) {
     setIsNegative(false)
   }
   
+
+  /* LOGIC TO DETERMINE HOW LONG AGO WAS EACH CELEBRITY ADDED TO THE API */
   let timeIs = 0
   function renderTime(){
     const timeAgo = Date.parse(celeb.lastUpdated)
@@ -97,6 +102,7 @@ function Card(props) {
     timeRef.current = timeDifference
     let timeToRender = Math.round(timeRef.current/31)
     
+    /* PARSING TIME TO DAYS, MONTHS, OR YEARS ACCORDINGLY */
     if(timeToRender>31){
       timeIs = Math.round(timeToRender/31) + ' month'
       return timeIs
@@ -110,6 +116,7 @@ function Card(props) {
     return timeIs
   }
 
+  /* RUNNING THE FUNCTION TO GET THE timeIs VARIABLE IN RETURN */
   renderTime()
 
   return (
@@ -170,7 +177,7 @@ function Card(props) {
             <button
               className='card__btn card__btn--vote'
               onClick={handleVote}
-              disabled={ displayMode==='List' && false}
+              disabled={(!isPositive && !isNegative && !voted)}
             >
               {voted ?  'Vote Again' : 'Vote Now'}
             </button>
