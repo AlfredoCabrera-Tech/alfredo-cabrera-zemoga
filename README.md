@@ -2,6 +2,8 @@
 
 This is my submission for the candidate test. 
 
+[Here](https://alfredo-cabrera-zemoga.netlify.app/) is a live version of the website
+
 ### Technologies used
 
 - ReactJS
